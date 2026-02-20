@@ -2,8 +2,8 @@ import system
 import strformat
 import math
 
-const WIDTH  = 555
-const HEIGHT = 555
+const WIDTH  = 1920
+const HEIGHT = 1080
 
 type RGB = tuple[r: float, g: float, b: float]
 
@@ -17,11 +17,12 @@ proc `/`(a, b: Vec2): Vec2 = (a.x / b.x, a.y / b.y)
 proc length(a: Vec2): float = sqrt(a.x * a.x + a.y * a.y)
 
 proc stripes(uv: Vec2): RGB =
-  let n = 17.0
+  let n = 50.0
   (
     (sin(uv.x * n) + 1.0) * 0.5,
-    (sin((uv.x + uv.y) * n) + 1.0) * 0.5,
-    (cos(uv.y * n) + 1.0) * 0.5
+    (sin((uv.x + uv.y) * n * 10.0) + 1.0) * 0.5,
+    # 0.59,
+    (cos(uv.y * n + 0.2) + 1.0) * 0.5
   )
 
 proc circle(uv: Vec2): RGB =
@@ -37,7 +38,7 @@ proc main(): void =
     for y in 0..<WIDTH:
       let u = float(y) / float(WIDTH)
       let v = float(x) / float(WIDTH)
-      let (r, g, b) = circle((u, v))
+      let (r, g, b) = stripes((u, v))
       f.write(chr(int(r * 255.0)))
       f.write(chr(int(g * 255.0)))
       f.write(chr(int(b * 255.0)))
